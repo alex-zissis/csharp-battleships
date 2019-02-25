@@ -1,0 +1,11 @@
+/Users/alexzissis/Documents/Other/Programming/battleship/bin/Debug/netcoreapp2.2/battleship.deps.json
+/Users/alexzissis/Documents/Other/Programming/battleship/bin/Debug/netcoreapp2.2/battleship.runtimeconfig.json
+/Users/alexzissis/Documents/Other/Programming/battleship/bin/Debug/netcoreapp2.2/battleship.runtimeconfig.dev.json
+/Users/alexzissis/Documents/Other/Programming/battleship/bin/Debug/netcoreapp2.2/battleship.dll
+/Users/alexzissis/Documents/Other/Programming/battleship/bin/Debug/netcoreapp2.2/battleship.pdb
+/Users/alexzissis/Documents/Other/Programming/battleship/obj/Debug/netcoreapp2.2/battleship.csprojAssemblyReference.cache
+/Users/alexzissis/Documents/Other/Programming/battleship/obj/Debug/netcoreapp2.2/battleship.csproj.CoreCompileInputs.cache
+/Users/alexzissis/Documents/Other/Programming/battleship/obj/Debug/netcoreapp2.2/battleship.AssemblyInfoInputs.cache
+/Users/alexzissis/Documents/Other/Programming/battleship/obj/Debug/netcoreapp2.2/battleship.AssemblyInfo.cs
+/Users/alexzissis/Documents/Other/Programming/battleship/obj/Debug/netcoreapp2.2/battleship.dll
+/Users/alexzissis/Documents/Other/Programming/battleship/obj/Debug/netcoreapp2.2/battleship.pdb
