@@ -37,21 +37,21 @@ namespace battleship.lib
                         Coordinate tempCoord;
                         try
                         {
+                            //go from "A1" format in (0,0)
                             tempCoord = Helpers.getCoordsFromPoint(value, Program.XSize, Program.YSize);
                             if (opponent.PlayerBoard.isGuessed(tempCoord))
                             {
                                 Console.WriteLine("That coordinate has already been guessed, try again");
                                 continue;
                             }
+                            //If the guess hit a ship
                             bool isGuessGood = opponent.PlayerBoard.isGuessGood(tempCoord);
                             if (isGuessGood)
                             {
                                 Console.WriteLine("HIT: A ship was hit at " + value);
                                 Ship ship = opponent.PlayerBoard.getFilledShip(tempCoord);
-                                Console.WriteLine(ship);
                                 if (ship != null)
                                 {
-                                    Console.WriteLine(ship.isSunk());
                                     if (ship.isSunk())
                                     {
                                         Console.WriteLine("SUNK: You have sunk " + opponent.Name + "'s battleship!");

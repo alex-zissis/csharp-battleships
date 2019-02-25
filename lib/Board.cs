@@ -17,12 +17,11 @@ namespace battleship.lib
         {
             rows = this.genRows(_xSize, _ySize);
         }
-
+        //assigns coordinates on board to a ship
         public void assignShip(Ship _ship)
         {
             string shipType = _ship.ShipArea.GetType().ToString();
             Area _shipArea = _ship.ShipArea;
-            Console.WriteLine(shipType);
             if (shipType == "battleship.lib.Row")
             {
                 //loop through the column to ensure its empty
@@ -62,7 +61,7 @@ namespace battleship.lib
             }
         }
 
-
+        //generate starting rows
         private List<Row> genRows(int _xSize, int _ySize)
         {
             List<Row> outRows = new List<Row>();
@@ -77,29 +76,39 @@ namespace battleship.lib
             }
             return outRows;
         }
-
+        //get a display of all the coordinates that have a ship attached
         public string getShipLocations()
         {
             string outStr = this.formatColumnHeaders(rows[0]);
             int ctr = 1;
             foreach (var row in this.rows)
             {
-                outStr += ctr + " | " + row.getShipLocations() + "\n";
+                String startstr = "";
+                if (ctr < 10)
+                {
+                    startstr = ctr + " ";
+                }
+                else
+                {
+                    startstr = ctr.ToString();
+                }
+                outStr += startstr + "| " + row.getShipLocations() + "\n";
                 ctr++;
             }
             return outStr;
         }
-
+        //returns where or not the coordinate has been guessed
         public bool isGuessed(Coordinate coord)
         {
             return this.rows[coord.Y].Coords[coord.X].Guessed;
         }
 
+        //returns whether a coordinate has been filled by a ship
         public Ship getFilledShip(Coordinate coord)
         {
             return this.rows[coord.Y].Coords[coord.X].ShipFilled;
         }
-
+        //returns whether a guess hit a ship
         public bool isGuessGood(Coordinate coord)
         {
             this.rows[coord.Y].Coords[coord.X].Guessed = true;
@@ -114,19 +123,28 @@ namespace battleship.lib
                 return false;
             }
         }
-
+        //overides to string to print all the rows
         public override string ToString()
         {
             string outStr = this.formatColumnHeaders(rows[0]);
             int ctr = 1;
             foreach (var row in this.rows)
             {
-                outStr += ctr + " | " + row.ToString() + "\n";
+                String startstr = "";
+                if (ctr < 10)
+                {
+                    startstr = ctr + " ";
+                }
+                else
+                {
+                    startstr = ctr.ToString();
+                }
+                outStr += startstr + "| " + row.ToString() + "\n";
                 ctr++;
             }
             return outStr;
         }
-
+        //formats rows headers from a char array into the ouput format.
         private String formatColumnHeaders(Row row)
         {
             char[] colHeaders = Helpers.getColumnHeadings(row.Coords.Count);

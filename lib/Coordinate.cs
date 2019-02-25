@@ -25,7 +25,7 @@ namespace battleship.lib
             guessed = false;
             coords = new List<int>() { x, y };
         }
-
+        //return X if a coordinate has a ship attached or - otherwise
         public string getShipLocations()
         {
             string outStr = "";
@@ -40,6 +40,7 @@ namespace battleship.lib
             return " " + outStr + " ";
         }
 
+        //overide two string to display status of spots
         public override string ToString()
         {
             string outStr = "";

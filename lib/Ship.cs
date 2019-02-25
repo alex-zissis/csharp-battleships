@@ -44,12 +44,12 @@ namespace battleship.lib
                 shipArea = new Column(coordinates);
             }
         }
-
+        //sets the ships area coordinate to guessed
         public void setGuessed(Coordinate coord)
         {
             shipArea.Coords.Find(x => coord.X == x.X && coord.Y == x.Y).Guessed = true;
         }
-
+        //checks if the ship is sunk i.e. the whole area has been guessed.
         public bool isSunk()
         {
             foreach (var coord in shipArea.Coords)

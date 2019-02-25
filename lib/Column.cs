@@ -9,7 +9,7 @@ namespace battleship.lib
     {
         public Column(List<Coordinate> _coords) : base(_coords) { } //call the init on the super using _coords
 
-        //loop through the 7 to make sure all values are the same. Otherwise it is not a valid column
+        //loop through the column to make sure all X values are the same. Otherwise it is not a valid column
         public override bool validateCoords(List<Coordinate> _coords)
         {
             int refX = _coords[0].X;
