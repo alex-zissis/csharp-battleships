@@ -28,7 +28,7 @@ namespace battleship.lib
                 //loop through the column to ensure its empty
                 int row = _shipArea.Coords[0].Y;
                 int firstX = _shipArea.Coords[0].X;
-                for (int i = firstX; i < firstX + _shipArea.Coords.Count - 1; i++)
+                for (int i = firstX; i < firstX + _shipArea.Coords.Count; i++)
                 {
                     if (this.rows[row].Coords[i].ShipFilled != null)
                     {
@@ -36,7 +36,7 @@ namespace battleship.lib
                     }
                 }
 
-                for (int i = firstX; i < firstX + _shipArea.Coords.Count - 1; i++)
+                for (int i = firstX; i < firstX + _shipArea.Coords.Count; i++)
                 {
                     this.rows[row].Coords[i].ShipFilled = _ship;
                 }
@@ -47,7 +47,7 @@ namespace battleship.lib
                 int column = _shipArea.Coords[0].X;
                 int firstY = _shipArea.Coords[0].Y;
 
-                for (int i = firstY; i < firstY + _shipArea.Coords.Count - 1; i++)
+                for (int i = firstY; i < firstY + _shipArea.Coords.Count; i++)
                 {
                     if (this.rows[i].Coords[column].ShipFilled != null)
                     {
@@ -55,7 +55,7 @@ namespace battleship.lib
                     }
                 }
 
-                for (int i = firstY; i < firstY + _shipArea.Coords.Count - 1; i++)
+                for (int i = firstY; i < firstY + _shipArea.Coords.Count; i++)
                 {
                     this.rows[i].Coords[column].ShipFilled = _ship;
                 }
@@ -71,7 +71,7 @@ namespace battleship.lib
                 List<Coordinate> listCoords = new List<Coordinate>();
                 for (int k = 0; k < _ySize; k++)
                 {
-                    listCoords.Add(new Coordinate(i, k));
+                    listCoords.Add(new Coordinate(k, i));
                 }
                 outRows.Add(new Row(listCoords));
             }
@@ -88,6 +88,31 @@ namespace battleship.lib
                 ctr++;
             }
             return outStr;
+        }
+
+        public bool isGuessed(Coordinate coord)
+        {
+            return this.rows[coord.Y].Coords[coord.X].Guessed;
+        }
+
+        public Ship getFilledShip(Coordinate coord)
+        {
+            return this.rows[coord.Y].Coords[coord.X].ShipFilled;
+        }
+
+        public bool isGuessGood(Coordinate coord)
+        {
+            this.rows[coord.Y].Coords[coord.X].Guessed = true;
+            Ship ship = this.getFilledShip(coord);
+            if (ship != null)
+            {
+                ship.setGuessed(coord);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override string ToString()

@@ -23,7 +23,7 @@ namespace battleship.lib
             List<Coordinate> outList = new List<Coordinate>();
             foreach (var item in coordVar)
             {
-                Coordinate coord = horizontal ? new Coordinate(coordStatic, item) : new Coordinate(item, coordStatic);
+                Coordinate coord = horizontal ? new Coordinate(item, coordStatic) : new Coordinate(coordStatic, item);
                 outList.Add(coord);
             }
             return outList;
@@ -32,9 +32,9 @@ namespace battleship.lib
         public static Coordinate getCoordsFromPoint(string point, int xSize, int ySize)
         {
             point = point.ToUpper();
-            if (point.Length != 2)
+            if (point.Length < 2 || point.Length > 3)
             {
-                throw new System.ArgumentException("Invalid length. Ensure you enter the position in the format \"A1\"");
+                throw new System.ArgumentException("Invalid entry length. Ensure you enter the position in the format \"A1\"");
             }
 
             int x = Encoding.ASCII.GetBytes(point)[0] - 65;
@@ -46,7 +46,9 @@ namespace battleship.lib
             int y = new int();
             try
             {
-                y = Int32.Parse(point[1].ToString()) - 1;
+                string toReplace = point[0].ToString();
+                y = Int32.Parse(point.Replace(toReplace, "")) - 1;
+
             }
             catch (System.FormatException)
             {
@@ -54,12 +56,12 @@ namespace battleship.lib
             }
             if (x >= xSize - 1)
             {
-                throw new System.ArgumentException("Your X coordinate was too big. Remeber the size of the board is " + xSize + " (and you can't start on postion " + (xSize - 1));
+                throw new System.ArgumentException("Your X coordinate was too big. Remeber the size of the board is " + xSize + " and ships need to be at least 2 long.");
             }
 
             if (y >= ySize - 1)
             {
-                throw new System.ArgumentException("Your Y coordinate was too big. Remeber the size of the board is " + ySize + " (and you can't start on postion " + (ySize - 1));
+                throw new System.ArgumentException("Your Y coordinate was too big. Remeber the size of the board is " + ySize + " and ships need to be at least 2 long.");
             }
 
             return new Coordinate(x, y);

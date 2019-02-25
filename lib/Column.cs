@@ -12,10 +12,10 @@ namespace battleship.lib
         //loop through the 7 to make sure all values are the same. Otherwise it is not a valid column
         public override bool validateCoords(List<Coordinate> _coords)
         {
-            int refY = _coords[0].Y;
+            int refX = _coords[0].X;
             foreach (var item in _coords)
             {
-                if (item.Y != refY)
+                if (item.X != refX)
                 {
                     return false;
                 }

@@ -15,10 +15,9 @@
         //generate two players and then start the GameLoop
         public static void Main()
         {
-            List<Player> players = new List<Player>();
-            players.Add(new Player(new Board(xSize, ySize), "Alex"));
-            players.Add(new Player(new Board(xSize, ySize), "James"));
-            Game game = new Game(players);
+            Player player1 = new Player(new Board(xSize, ySize), "Alex");
+            Player player2 = new Player(new Board(xSize, ySize), "James");
+            Game game = new Game(player1, player2);
             game.gameLoop();
         }
     }

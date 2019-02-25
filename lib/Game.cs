@@ -7,11 +7,13 @@ namespace battleship.lib
     //Contains the game logic
     public class Game
     {
-        private List<Player> players;
+        private Player player1;
+        private Player player2;
 
-        public Game(List<Player> _players)
+        public Game(Player _player1, Player _player2)
         {
-            players = _players;
+            player1 = _player1;
+            player2 = _player2;
         }
 
         public void gameLoop()
@@ -20,14 +22,76 @@ namespace battleship.lib
             this.initialiseShips();
             while (!quitGame)
             {
-                //Console.WriteLine();
+                Player active = player1;
+                Player opponent = player2;
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.WriteLine("\n" + active.Name + ", it's your turn \n");
+                    Console.WriteLine("Opponent's board: \n");
+                    Console.WriteLine(opponent.PlayerBoard);
+                    Coordinate guess = null;
+                    while (guess == null)
+                    {
+                        Console.WriteLine("\n Make a guess in the format \"A1\":");
+                        string value = Console.ReadLine();
+                        Coordinate tempCoord;
+                        try
+                        {
+                            tempCoord = Helpers.getCoordsFromPoint(value, Program.XSize, Program.YSize);
+                            if (opponent.PlayerBoard.isGuessed(tempCoord))
+                            {
+                                Console.WriteLine("That coordinate has already been guessed, try again");
+                                continue;
+                            }
+                            bool isGuessGood = opponent.PlayerBoard.isGuessGood(tempCoord);
+                            if (isGuessGood)
+                            {
+                                Console.WriteLine("HIT: A ship was hit at " + value);
+                                Ship ship = opponent.PlayerBoard.getFilledShip(tempCoord);
+                                Console.WriteLine(ship);
+                                if (ship != null)
+                                {
+                                    Console.WriteLine(ship.isSunk());
+                                    if (ship.isSunk())
+                                    {
+                                        Console.WriteLine("SUNK: You have sunk " + opponent.Name + "'s battleship!");
+                                        opponent.PlayerBoard.ShipCount--;
+                                        if (opponent.PlayerBoard.ShipCount == 0)
+                                        {
+                                            Console.WriteLine("VICTOR: You have sunk all of" + opponent.Name + "'s ships! You win!");
+
+                                            Environment.Exit(0);
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine(opponent.Name + "Has " + opponent.PlayerBoard.ShipCount + " ships remaining.");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("MISS: No ship was hit at " + value);
+                            }
+                            guess = tempCoord;
+                        }
+                        catch (System.ArgumentException e)
+                        {
+                            Console.WriteLine(e);
+                            continue;
+                        }
+                    }
+                    Player temp = active;
+                    active = opponent;
+                    opponent = temp;
+                }
             }
         }
 
         //Loop through each user and have them select where to place their ships
         private void initialiseShips()
         {
-            foreach (var player in this.players)
+            foreach (var player in new List<Player>() { player1, player2 })
             {
                 bool done = false;
                 int shipCount = 0;
@@ -76,7 +140,17 @@ namespace battleship.lib
                         Console.WriteLine("Choose a starting position for your ship in the format A1 (Row Letter, Column Number):");
                         try
                         {
-                            startingPosition = Helpers.getCoordsFromPoint(Console.ReadLine().ToUpper(), Program.XSize, Program.YSize);
+                            Coordinate tempPosition = Helpers.getCoordsFromPoint(Console.ReadLine().ToUpper(), Program.XSize, Program.YSize);
+                            if (tempPosition.X == Program.XSize)
+                            {
+                                Console.WriteLine("A ship can not start in the last column of the board.");
+                            }
+                            else if (tempPosition.Y == Program.YSize)
+                            {
+                                Console.WriteLine("A ship can not start in the row column of the board.");
+                            }
+
+                            startingPosition = tempPosition;
                         }
                         catch (System.ArgumentException e)
                         {
@@ -102,13 +176,13 @@ namespace battleship.lib
                             continue;
                         }
 
-                        if (tempLength > 0 && tempLength <= maxLength)
+                        if (tempLength > 1 && tempLength <= maxLength)
                         {
                             length = tempLength;
                         }
-                        else if (tempLength <= 0)
+                        else if (tempLength <= 1)
                         {
-                            Console.WriteLine("Enter a length above 0");
+                            Console.WriteLine("Enter a length above 1");
                         }
                         else if (tempLength > maxLength)
                         {
@@ -117,7 +191,7 @@ namespace battleship.lib
                     }
 
                     //calculate the end coordinates of the ship by adding the length to the start value on the relevant axis
-                    Coordinate endPosition = orientation == 'H' ? new Coordinate(startingPosition.X, startingPosition.Y + length) : new Coordinate(startingPosition.X + length, startingPosition.Y);
+                    Coordinate endPosition = orientation == 'H' ? new Coordinate(startingPosition.X + length - 1, startingPosition.Y) : new Coordinate(startingPosition.X, startingPosition.Y + length - 1);
                     Ship ship = new Ship(startingPosition, endPosition);
                     try
                     {
@@ -135,8 +209,6 @@ namespace battleship.lib
                     Console.WriteLine(player.PlayerBoard.getShipLocations());
                 }
             }
-            Console.WriteLine(players[0].PlayerBoard);
-            Console.WriteLine(players[1].PlayerBoard);
         }
     }
 }
