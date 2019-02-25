@@ -84,8 +84,8 @@ namespace battleship.lib
                         }
                     }
                     //calculate the max length of the ship by finding the available points in the direction chosen
-                    int maxAxisLength = orientation == 'H' ? Program.YSize : Program.XSize;
-                    int axisPosition = orientation == 'H' ? startingPosition.Y : startingPosition.X;
+                    int maxAxisLength = orientation == 'H' ? Program.XSize : Program.YSize;
+                    int axisPosition = orientation == 'H' ? startingPosition.X : startingPosition.Y;
                     int maxLength = maxAxisLength - axisPosition;
 
                     while (length == 0)

@@ -22,34 +22,42 @@ namespace battleship.lib
         {
             string shipType = _ship.ShipArea.GetType().ToString();
             Area _shipArea = _ship.ShipArea;
-            if (shipType == "Row")
+            Console.WriteLine(shipType);
+            if (shipType == "battleship.lib.Row")
             {
-                for (int i = _shipArea.Coords[0].Y; i < _shipArea.Coords[0].Y + _shipArea.Coords.Count - 1; i++)
+                //loop through the column to ensure its empty
+                int row = _shipArea.Coords[0].Y;
+                int firstX = _shipArea.Coords[0].X;
+                for (int i = firstX; i < firstX + _shipArea.Coords.Count - 1; i++)
                 {
-                    if (this.rows[_shipArea.Coords[0].X].Coords[i].ShipFilled != null)
+                    if (this.rows[row].Coords[i].ShipFilled != null)
                     {
-                        throw new System.ArgumentException("The area you selected already has a ship at " + this.rows[_shipArea.Coords[0].X].Coords[i]);
+                        throw new System.ArgumentException("The area you selected already has a ship at " + this.rows[row].Coords[i]);
                     }
                 }
 
-                for (int i = _shipArea.Coords[0].Y; i < _shipArea.Coords[0].Y + _shipArea.Coords.Count - 1; i++)
+                for (int i = firstX; i < firstX + _shipArea.Coords.Count - 1; i++)
                 {
-                    this.rows[_shipArea.Coords[0].X].Coords[i].ShipFilled = _ship;
+                    this.rows[row].Coords[i].ShipFilled = _ship;
                 }
             }
             else
             {
-                for (int i = _shipArea.Coords[0].X; i < _shipArea.Coords[0].X + _shipArea.Coords.Count - 1; i++)
+                //loop through the column to ensure its empty
+                int column = _shipArea.Coords[0].X;
+                int firstY = _shipArea.Coords[0].Y;
+
+                for (int i = firstY; i < firstY + _shipArea.Coords.Count - 1; i++)
                 {
-                    if (this.rows[_shipArea.Coords[0].Y].Coords[i].ShipFilled != null)
+                    if (this.rows[i].Coords[column].ShipFilled != null)
                     {
-                        throw new System.ArgumentException("The area you selected already has a ship at " + this.rows[_shipArea.Coords[0].Y].Coords[i]);
+                        throw new System.ArgumentException("The area you selected already has a ship at " + this.rows[i].Coords[column]);
                     }
                 }
 
-                for (int i = _shipArea.Coords[0].X; i < _shipArea.Coords[0].X + _shipArea.Coords.Count - 1; i++)
+                for (int i = firstY; i < firstY + _shipArea.Coords.Count - 1; i++)
                 {
-                    this.rows[_shipArea.Coords[0].Y].Coords[i].ShipFilled = _ship;
+                    this.rows[i].Coords[column].ShipFilled = _ship;
                 }
             }
         }
@@ -73,7 +81,7 @@ namespace battleship.lib
         public string getShipLocations()
         {
             string outStr = this.formatColumnHeaders(rows[0]);
-            int ctr = 0;
+            int ctr = 1;
             foreach (var row in this.rows)
             {
                 outStr += ctr + " | " + row.getShipLocations() + "\n";
@@ -85,7 +93,7 @@ namespace battleship.lib
         public override string ToString()
         {
             string outStr = this.formatColumnHeaders(rows[0]);
-            int ctr = 0;
+            int ctr = 1;
             foreach (var row in this.rows)
             {
                 outStr += ctr + " | " + row.ToString() + "\n";
